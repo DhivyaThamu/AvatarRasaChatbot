@@ -1,5 +1,5 @@
 # from rasa base image
-FROM rasa/rasa:1.8.0
+FROM rasa/rasa:2.8.1
 # copy all source and the Rasa generated model
 COPY . /app
 
@@ -9,11 +9,11 @@ EXPOSE 5005
 # script to run rasa core
 COPY startup.sh /app/scripts/startup.sh
 # script to run rasa shell
-COPY shell.sh /app/scripts/shell.sh
+COPY shell.sh /app/scripts/action.sh
 
 USER root
 RUN chmod a+x /app/scripts/startup.sh
-RUN chmod a+x /app/scripts/shell.sh
+RUN chmod a+x /app/scripts/action.sh
 
 WORKDIR /app
 
@@ -21,5 +21,5 @@ ENTRYPOINT []
 ENV shell_mode false
 
 # launch script (rasa shell or rasa run)
-CMD sh -c 'if [ "$shell_mode" = false ]; then /app/scripts/startup.sh; else  /app/scripts/shell.sh; fi'
+CMD sh -c 'if [ "$shell_mode" = false ]; then /app/scripts/startup.sh; else  /app/scripts/action.sh; fi'
 
